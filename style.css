@@ -1,0 +1,9 @@
+h1,h2,h3 {
+	background-color: orange;
+	text-align: center;
+}
+p {
+	border-collapse: collapse;
+	text-indent: 2em;
+	text-align: justify;
+}
