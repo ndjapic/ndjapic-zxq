@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Разломци</title>
+<script src="razlomci.js"></script>
+<script>
+
+function update(q) {
+  var a = q.razlomak.value.split("/").map(eval)
+  return new Razlomak(a[0],a[1]).toForm(q)
+}
+
+function toForm (q) {
+  var r
+  q.brojilac.value = this.brojilac
+  q.imenilac.value = this.imenilac
+  q.decimalniBroj.value = this.decimalniBroj
+  q.jeNula.checked = this.jeNula
+  r = this.reciprocno()
+  q.reciprocno.value = r.brojilac +"/"+ r.imenilac
+  r = this.prosiritiSa(q.n1.value)
+  q.prosiritiSa.value = r.brojilac +"/"+ r.imenilac
+  r = this.skratitiSa(q.n2.value)
+  q.skratitiSa.value = r.brojilac +"/"+ r.imenilac
+//  q.nzd.value = this.euklidovNZD()
+  return false
+}
+
+</script>
+</head>
+<body>
+
+<form onsubmit="return update(this)">
+<input type="submit" />
+<input type="reset" />
+<table>
+<tr>
+<th>Разломак</th>
+<td><input type="text" name="razlomak" value="36/15" /></td>
+</tr>
+<tr>
+<th>Бројилац</th>
+<td><output type="text" name="brojilac" /></td>
+</tr>
+<tr>
+<th>Именилац</th>
+<td><output type="text" name="imenilac" /></td>
+</tr>
+<tr>
+<th>Децимални број</th>
+<td><output type="text" name="decimalniBroj" /></td>
+</tr>
+<tr>
+<th>Нула?</th>
+<td><input type="checkbox" name="jeNula" /></td>
+</tr>
+<tr>
+<th>Реципрочно</th>
+<td><output type="text" name="reciprocno" /></td>
+</tr>
+<tr>
+<th>Проширити</th>
+<td><output type="text" name="prosiritiSa" /></td>
+<th><input type="text" name="n1" value="2" /></th>
+</tr>
+<tr>
+<th>Скратити</th>
+<td><output type="text" name="skratitiSa" /></td>
+<th><input type="text" name="n2" value="3" /></th>
+</tr>
+<tr>
+<th>Цео део</th>
+<td><output type="text" name="ceoDeo" /></td>
+</tr>
+<tr>
+<th>Прави разломак?</th>
+<td><input type="checkbox" name="jePravi" /></td>
+</tr>
+<tr>
+<th>Додавање природног броја</th>
+<td><output type="text" name="dodaj" /></td>
+<th><input type="text" name="n3" value="3" /></th>
+</tr>
+<tr>
+<th>Одузимање природног броја</th>
+<td><output type="text" name="oduzmi" /></td>
+<th><input type="text" name="n4" value="3" /></th>
+</tr>
+<tr>
+<th>Прави део</th>
+<td><output type="text" name="praviDeo" /></td>
+</tr>
+<tr>
+<th>Цео број?</th>
+<td><input type="checkbox" name="jeCeo" /></td>
+</tr>
+<tr>
+<th>НЗД</th>
+<td><output type="text" name="nzd" /></td>
+</tr>
+</table>
+</form>
+
+<a href="razlomci.js" >Преузимање кода</a>.
+
+</body>
+</html>
