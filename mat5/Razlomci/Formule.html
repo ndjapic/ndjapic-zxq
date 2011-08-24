@@ -14,14 +14,24 @@ var znaci = {
  manje: '<',
  vece: '>',
  nepoznata: 'x',
+ oz: '(',
+ zz: ')',
  suprotan: function(znak) {
   if( znak == '+') return '-'
   if( znak == '-') return '+'
   if( znak == '*') return '/'
   if( znak == '/') return '*'
   if( znak == '<') return '>'
-  if( znak == '>') return '>'
+  if( znak == '>') return '<'
   return znak
+ }
+}
+
+function Operand(a) {
+ this.vrednost = function() {
+  if(a == znaci.nepoznata) return false
+  if(!isNaN(a)) return Number(a)
+  return a.vrednost()
  }
 }
 
@@ -30,13 +40,16 @@ function Izraz(a, znak, b) {
  this.znak = znak
  this.operand2 = b
  this.vrednost = function() {
-  switch(znak) {
-   case znaci.plus: a+b; break;
-   case znaci.minus: a-b; break;
-   case znaci.puta: a*b; break;
-   case znaci.deljeno: a/b; break;
-  }
+  a = a.vrednost()
+  b = b.vrednost()
+  if(!a) return a
+  if(!b) return b
+  if(znak == znaci.plus) return a+b
+  if(znak == znaci.minus) return a-b
+  if(znak == znaci.puta) return a*b
+  if(znak == znaci.deljeno) return a/b
  }
+ this.toString = znaci.oz + a + znak + b + znaci.zz
 }
 
 function Operacija(izraz, vrednost) {
@@ -51,18 +64,62 @@ function Relacija(izraz, poredjenje, vrednost) {
 
 function Jednacina(izraz, vrednost) {
  this = new Relacija(izraz, znaci.jednako, vrednost)
+ this.toString = izraz + znaci.jednako + vrednost 
+ document.writeln(this)
 }
 
 function Sabiranje(sabirak1, sabirak2, zbir) {
  this.izraz = new Izraz(sabirak1, znaci.plus, sabirak2)
  this.relacija = new Jednacina(this.izraz, zbir)
  this.resavanje = function() {
-  if( zbir == znaci.nepoznata ) return this
   if( !sabirak1.vrednost() ) return new Oduzimanje(zbir, sabirak2, sabirak1)
   if( !sabirak2.vrednost() ) return new Oduzimanje(zbir, sabirak1, sabirak2)
-  return false
+  return new Jednacina(this.izraz.vrednost(), zbir)
  }
 }
+
+function Oduzimanje(umanjenik, umanjilac, razlika) {
+ this.izraz = new Izraz(umanjenik, znaci.minus, umanjilac)
+ this.relacija = new Jednacina(this.izraz, razlika)
+ this.resavanje = function() {
+  if( !umanjenik.vrednost() ) return new Sabiranje(umanjilac, razlika, umanjenik)
+  if( !umanjilac.vrednost() ) return new Oduzimanje(umanjenik, razlika, umanjilac)
+  return new Jednacina(this.izraz.vrednost(), razlika)
+ }
+}
+
+function Mnozenje(cinilac1, cinilac2, proizvod) {
+ this.izraz = new Izraz(cinilac1, znaci.puta, cinilac2)
+ this.relacija = new Jednacina(this.izraz, proizvod)
+ this.resavanje = function() {
+  if( !cinilac1.vrednost() ) return new Deljenje(proizvod, cinilac2, cinilac1)
+  if( !cinilac2.vrednost() ) return new Deljenje(proizvod, cinilac1, cinilac2)
+  return new Jednacina(this.izraz.vrednost(), proizvod)
+ }
+}
+
+function Deljenje(deljenik, delilac, kolicnik) {
+ this.izraz = new Izraz(deljenik, znaci.deljeno, delilac)
+ this.relacija = new Jednacina(this.izraz, kolicnik)
+ this.resavanje = function() {
+  if( !deljenik.vrednost() ) return new Mnozenje(delilac, kolicnik, deljenik)
+  if( !delilac.vrednost() ) return new Deljenje(deljenik, kolicnik, delilac)
+  return new Jednacina(this.izraz.vrednost(), kolicnik)
+ }
+}
+
+// Example
+
+new Jednacina(
+ new Mnozenje(
+  new Operand(2),
+  new Oduzimanje(
+   new Operand(znaci.nepoznata),
+   new Operand(5)
+  )
+ ),
+ new Operand(7)
+)
 
 </script>
 </head>
