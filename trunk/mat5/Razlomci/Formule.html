@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Формуле</title>
+<script type="text/javascript" >
+
+var znaci = {
+ plus: '+',
+ minus: '-',
+ puta: '*',
+ deljeno: '/',
+ jednako: '=',
+ manje: '<',
+ vece: '>',
+ nepoznata: 'x',
+ suprotan: function(znak) {
+  if( znak == '+') return '-'
+  if( znak == '-') return '+'
+  if( znak == '*') return '/'
+  if( znak == '/') return '*'
+  if( znak == '<') return '>'
+  if( znak == '>') return '>'
+  return znak
+ }
+}
+
+function Izraz(a, znak, b) {
+ this.operand1 = a
+ this.znak = znak
+ this.operand2 = b
+ this.vrednost = function() {
+  switch(znak) {
+   case znaci.plus: a+b; break;
+   case znaci.minus: a-b; break;
+   case znaci.puta: a*b; break;
+   case znaci.deljeno: a/b; break;
+  }
+ }
+}
+
+function Operacija(izraz, vrednost) {
+ this.izraz = izraz
+ this.vrednost = vrednost
+}
+
+function Relacija(izraz, poredjenje, vrednost) {
+ this = new Operacija(izraz, vrednost)
+ this.poredjenje = poredjenje
+}
+
+function Jednacina(izraz, vrednost) {
+ this = new Relacija(izraz, znaci.jednako, vrednost)
+}
+
+function Sabiranje(sabirak1, sabirak2, zbir) {
+ this.izraz = new Izraz(sabirak1, znaci.plus, sabirak2)
+ this.relacija = new Jednacina(this.izraz, zbir)
+ this.resavanje = function() {
+  if( zbir == znaci.nepoznata ) return this
+  if( !sabirak1.vrednost() ) return new Oduzimanje(zbir, sabirak2, sabirak1)
+  if( !sabirak2.vrednost() ) return new Oduzimanje(zbir, sabirak1, sabirak2)
+  return false
+ }
+}
+
+</script>
+</head>
+<body>
+
+</body>
+</html>
