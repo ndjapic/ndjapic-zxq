@@ -13,8 +13,8 @@
 </body>
 <script>
 
+var t
 var s = skupN(1)
-var t = setTimeout(run, 5000/s.numb)
 
 function skupN(n) {
   return {
@@ -23,11 +23,13 @@ function skupN(n) {
   }
 }
 
-function run() {
+function addNumb() {
   document.forms.main.elements.result.value += s.numb + ", "
   s = s.next()
-  t = setTimeout(run, 5000/s.numb)
+  t = setTimeout(addNumb, 5000/s.numb)
 }
+
+addNumb()
 
 </script>
 </html>
