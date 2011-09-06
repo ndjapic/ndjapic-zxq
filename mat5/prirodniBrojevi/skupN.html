@@ -14,6 +14,7 @@
 <script>
 
 var t
+var h = 0 // harmonic sum
 var s = skupN(1)
 
 function skupN(n) {
@@ -24,9 +25,10 @@ function skupN(n) {
 }
 
 function addNumb() {
+  h += 1 / s.numb
   document.forms.main.elements.result.value += s.numb + ", "
   s = s.next()
-  t = setTimeout(addNumb, 5000/Math.log(1+s.numb))
+  t = setTimeout(addNumb, 1000/h)
 }
 
 addNumb()
