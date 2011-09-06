@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Скуп целих бројева</title>
+</head>
+<body>
+
+<form name="main">
+  Скуп Z = { ... <output name="result">0, </output>... }
+</form>
+
+</body>
+<script>
+
+var t
+var h = 0 // harmonic sum
+var s = skupN(1)
+var r = document.forms.main.elements.result
+
+function skupN(n) {
+  return {
+    numb: n,
+    next: function() {return skupN(n+1)}
+  }
+}
+
+function addNumb() {
+  h += 1 / s.numb
+  r.value = "-" + s.numb + ", " + r.value + s.numb + ", "
+  s = s.next()
+  t = setTimeout(addNumb, 1000/h)
+}
+
+addNumb()
+
+</script>
+</html>
+
