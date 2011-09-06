@@ -26,7 +26,7 @@ function skupN(n) {
 function addNumb() {
   document.forms.main.elements.result.value += s.numb + ", "
   s = s.next()
-  t = setTimeout(addNumb, 5000/s.numb)
+  t = setTimeout(addNumb, 5000/Math.log(1+s.numb))
 }
 
 addNumb()
