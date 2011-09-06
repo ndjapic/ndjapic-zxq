@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Скуп природних бројева</title>
+</head>
+<body>
+
+<form name="main">
+  Скуп N<sub>0</sub> = { <output name="result"></output> ... }
+</form>
+
+</body>
+<script>
+
+var t
+var h = 0 // harmonic sum
+var s = skupN(0)
+
+function skupN(n) {
+  return {
+    numb: n,
+    next: function() {return skupN(n+1)}
+  }
+}
+
+function addNumb() {
+  document.forms.main.elements.result.value += s.numb + ", "
+  s = s.next()
+  h += 1 / s.numb
+  t = setTimeout(addNumb, 1000/h)
+}
+
+addNumb()
+
+</script>
+</html>
+
