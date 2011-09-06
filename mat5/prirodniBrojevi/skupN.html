@@ -3,30 +3,30 @@
 <head>
 <meta charset="utf-8" />
 <title>Скуп природних бројева</title>
-<script>
-
-  function skupN(n) {
-    return {
-      numb: n,
-      next: function() {return skupN(n+1)}
-    }
-  }
-
-</script>
 </head>
 <body>
 
 <form name="main">
-  Скуп N = { <output name="result"></output> }
+  Скуп N = { <output name="result"></output> ... }
 </form>
 
 </body>
-  <script>
-    var s = skupN(1)
-    function run() {
-      document.forms.main.elements.result.value += skup.numb + ", "
-      skup = skup.next()
-    }
-    setInterval(run, 100)
-  </script>
+<script>
+
+var s = skupN(1)
+var t = setInterval(run, 100)
+
+function skupN(n) {
+  return {
+    numb: n,
+    next: function() {return skupN(n+1)}
+  }
+}
+
+function run() {
+  document.forms.main.elements.result.value += s.numb + ", "
+  s = s.next()
+}
+
+</script>
 </html>
