@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Еуклидов поступак за скраћивање разломка</title>
+<script>
+
+function jeNula(x) {
+  return Math.abs(x) < 0.0001
+}
+
+function skratiti(brojilac, imenilac) {
+  var ostatak = brojilac % imenilac
+  var kolicnik = (brojilac - ostatak) / imenilac
+  if(jeNula(ostatak)) {
+    nzd = imenilac
+    return {brojilac: kolicnik, imenilac: 1}
+  }
+  var r = skratiti(imenilac, ostatak)
+  return {
+    brojilac: r.brojilac * kolicnik + r.imenilac,
+    imenilac: r.brojilac
+  }
+}
+
+function init() {
+  var r = document.forms.main.elements.razlomak.value.split('/')
+  r = skratiti(Number(r[0]), Number(r[1]))
+  document.forms.main.elements.rezultat.value =
+  '(:'+nzd+') = '+ r.brojilac +'/'+ r.imenilac
+}
+
+var nzd
+
+</script>
+</head>
+<body onload="init()">
+
+<form name="main">
+  <input name="razlomak" value="3021/2491" /> =
+  <output name="rezultat"></output>
+</form>
+
+</body>
+</html>
