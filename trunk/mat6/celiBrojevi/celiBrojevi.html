@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Цели бројеви</title>
+</head>
+<body>
+
+<form name="main">
+ Result: <output name="result"></output>
+ <script>
+ 
+  PLUS = '+'
+  MINUS = '-'
+
+  function CeoBroj(z, a) {
+
+   this.znak = z
+   this.apsolutnaVrednost = a
+
+   this.jeNula = this.apsolutnaVrednost == 0
+   this.nijeNula = !this.jeNula
+
+   this.jePozitivan = this.nijeNula && this.znak == PLUS
+   this.jeNegativan = this.nijeNula && this.znak == MINUS
+
+   this.suprotno = function() {
+    return new CeoBroj(
+     this.jeNegativan ? PLUS : MINUS,
+     this.apsolutnaVrednost
+    )
+   }
+
+   this.toString = function() {
+    return (this.jeNegativan ? MINUS : '') + this.apsolutnaVrednost
+   }
+
+// УПОРЕЂИВАЊЕ ЦЕЛИХ БРОЈЕВА (два објашњења)
+
+   this.jeVeceOdNaPrviNacin = function(that) {
+    if(that.jeNegativan)
+     return this.jeNegativan ? this.apsolutnaVrednost < that.apsolutnaVrednost : true
+    return this.jeNegativan ? false : this.apsolutnaVrednost > that.apsolutnaVrednost
+   }
+
+   this.jeVeceOdNaDrugiNacin = function(that) {
+    if(this.jeNegativan && that.jeNegativan) return this.apsolutnaVrednost < that.apsolutnaVrednost
+    if(!this.jeNegativan && !that.jeNegativan) return this.apsolutnaVrednost > that.apsolutnaVrednost
+    return that.jeNegativan
+   }
+
+   this.plus = function(that) {
+   
+    var sabirakSaVAV // сабирак са већом апсолутном вредношћу
+    var sabirakSaMAV // сабирак са мањом апсолутном вредношћу
+
+    if (this.apsolutnaVrednost > that.apsolutnaVrednost) {
+     sabirakSaVAV = this; sabirakSaMAV = that
+    } else {
+     sabirakSaMAV = this; sabirakSaVAV = that
+    }
+
+    return new CeoBroj(
+     sabirakSaVAV.znak,
+     this.znak == that.znak ?
+     this.apsolutnaVrednost + that.apsolutnaVrednost :
+     sabirakSaVAV.apsolutnaVrednost - sabirakSaMAV.apsolutnaVrednost
+    )
+
+   }
+
+   this.minus = function(that) return this.plus(that.suprotno())
+
+   this.puta = function(that) {
+    return new CeoBroj(
+     this.znak == that.znak ? PLUS : MINUS,
+     this.apsolutnaVrednost * that.apsolutnaVrednost
+    )
+   }
+
+   this.deljenoSa = function(that) {
+    return new CeoBroj(
+     this.znak == that.znak ? PLUS : MINUS,
+     this.apsolutnaVrednost / that.apsolutnaVrednost // ако је дељиво
+    )
+   }
+
+  }
+
+  document.forms.main.elements.result.value = 'Цели бројеви';
+
+ </script>
+</form>
+
+</body>
+</html>
+
