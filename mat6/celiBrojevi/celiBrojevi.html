@@ -63,20 +63,16 @@
 
    this.plus = function(that) {
    
-    var sabirakSaVAV // сабирак са већом апсолутном вредношћу
-    var sabirakSaMAV // сабирак са мањом апсолутном вредношћу
-
-    if (this.apsolutnaVrednost > that.apsolutnaVrednost) {
-     sabirakSaVAV = this; sabirakSaMAV = that
-    } else {
-     sabirakSaMAV = this; sabirakSaVAV = that
-    }
+    var v = that // сабирак са већом апсолутном вредношћу
+    var m = that // сабирак са мањом апсолутном вредношћу
+    if (this.apsolutnaVrednost > that.apsolutnaVrednost) {v = this}
+    else {m = this}
 
     return new CeoBroj(
-     sabirakSaVAV.znak,
-     this.znak == that.znak ?
-     this.apsolutnaVrednost + that.apsolutnaVrednost :
-     sabirakSaVAV.apsolutnaVrednost - sabirakSaMAV.apsolutnaVrednost
+     v.znak,
+     v.znak == m.znak ?
+     v.apsolutnaVrednost + m.apsolutnaVrednost :
+     v.apsolutnaVrednost - m.apsolutnaVrednost
     )
 
    }
