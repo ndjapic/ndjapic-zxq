@@ -15,8 +15,12 @@
 
   function CeoBroj(z, a) {
 
+// ОСНОВНЕ ОСОБИНЕ
+
    this.znak = z
    this.apsolutnaVrednost = a
+
+// ПОРЕЂЕЊЕ СА НУЛОМ
 
    this.jeNula = this.apsolutnaVrednost == 0
    this.nijeNula = !this.jeNula
@@ -24,12 +28,16 @@
    this.jePozitivan = this.nijeNula && this.znak == PLUS
    this.jeNegativan = this.nijeNula && this.znak == MINUS
 
+// СУПРОТНА ВРЕДНОСТ
+
    this.suprotno = function() {
     return new CeoBroj(
      this.jeNegativan ? PLUS : MINUS,
      this.apsolutnaVrednost
     )
    }
+
+// ПРЕТВАРАЊЕ У ТЕКСТ
 
    this.toString = function() {
     return (this.jeNegativan ? MINUS : '') + this.apsolutnaVrednost
@@ -48,6 +56,10 @@
     if(!this.jeNegativan && !that.jeNegativan) return this.apsolutnaVrednost > that.apsolutnaVrednost
     return that.jeNegativan
    }
+
+// ОПЕРАЦИЈЕ СА ЦЕЛИМ БРОЈЕВИМА
+
+// Сабирање (најсложенија операција са целим бројевима)
 
    this.plus = function(that) {
    
@@ -69,7 +81,11 @@
 
    }
 
+// Одузимање (најједноставија операција са целим бројевима)
+
    this.minus = function(that) return this.plus(that.suprotno())
+
+// Множење
 
    this.puta = function(that) {
     return new CeoBroj(
@@ -77,6 +93,8 @@
      this.apsolutnaVrednost * that.apsolutnaVrednost
     )
    }
+   
+// Дељење
 
    this.deljenoSa = function(that) {
     return new CeoBroj(
@@ -94,4 +112,3 @@
 
 </body>
 </html>
-
