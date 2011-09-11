@@ -40,33 +40,22 @@
     return (this.jeNegativan ? MINUS : '') + this.apVr
    }
 
-// УПОРЕЂИВАЊЕ ЦЕЛИХ БРОЈЕВА (три објашњења)
+// УПОРЕЂИВАЊЕ ЦЕЛИХ БРОЈЕВА
 
-   this.jeVeceOdNaPrviNacin = function(that) {
-    if(that.jeNegativan)
-     return this.jeNegativan ? this.apVr < that.apVr : true
-    return this.jeNegativan ? false : this.apVr > that.apVr
-   }
+   this.imaIstiZnakKao(that) = function(that) return this.znak == that.znak   
+   this.imaVecuApVrOd(that) = function(that) return this.apVr > that.apVr
 
-   this.jeVeceOdNaDrugiNacin = function(that) {
-    if(this.jeNegativan && that.jeNegativan) return this.apVr < that.apVr
-    if(!this.jeNegativan && !that.jeNegativan) return this.apVr > that.apVr
-    return that.jeNegativan
-   }
-
-   this.jeVeceOdNaTreciNacin = function(that) {
-    return this.jeNegativan ?
-    that.jeNegativan && that.apVr > this.apVr :
-    that.jeNegativan || that.apVr < this.apVr
-   }
+   this.jeVeceOd = function(that) return this.jeNegativan ?
+    that.jeNegativan && that.imaVecuApVrOd(this) :
+    that.jeNegativan || this.imaVecuApVrOd(that)
 
 // ОПЕРАЦИЈЕ СА ЦЕЛИМ БРОЈЕВИМА
 
 // Сабирање (најсложенија операција са целим бројевима)
 
    this.plus = function(that) {
-    return this.apVr < that.apVr ? that.plus(this) : new CeoBroj(
-     this.znak, this.znak == that.znak ?
+    return that.imaVecuApVrOd(this) ? that.plus(this) : new CeoBroj(
+     this.znak, this.imaIstiZnakKao(that) ?
      this.apVr + that.apVr :
      this.apVr - that.apVr
     )
@@ -80,7 +69,7 @@
 
    this.puta = function(that) {
     return new CeoBroj(
-     this.znak == that.znak ? PLUS : MINUS,
+     this.imaIstiZnakKao(that) ? PLUS : MINUS,
      this.apVr * that.apVr
     )
    }
@@ -89,7 +78,7 @@
 
    this.deljenoSa = function(that) {
     return new CeoBroj(
-     this.znak == that.znak ? PLUS : MINUS,
+     this.imaIstiZnakKao(that) ? PLUS : MINUS,
      this.apVr / that.apVr // ако је дељиво
     )
    }
