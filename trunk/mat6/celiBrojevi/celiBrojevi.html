@@ -30,15 +30,14 @@
 
 // СУПРОТНА ВРЕДНОСТ
 
-   this.suprotno = function() {
-    return new CeoBroj( this.jeNegativan ? PLUS : MINUS, this.apVr )
-   }
+   this.suprotno = function() return new CeoBroj(
+    this.jeNegativan ? PLUS : MINUS, this.apVr
+   )
 
 // ПРЕТВАРАЊЕ У ТЕКСТ
 
-   this.toString = function() {
+   this.toString = function()
     return (this.jeNegativan ? MINUS : '') + this.apVr
-   }
 
 // УПОРЕЂИВАЊЕ ЦЕЛИХ БРОЈЕВА
 
@@ -53,35 +52,30 @@
 
 // Сабирање (најсложенија операција са целим бројевима)
 
-   this.plus = function(that) {
-    return that.imaVecuApVrOd(this) ? that.plus(this) : new CeoBroj(
+   this.plus = function(that) return that.imaVecuApVrOd(this) ? that.plus(this) :
+    new CeoBroj(
      this.znak, this.imaIstiZnakKao(that) ?
      this.apVr + that.apVr :
      this.apVr - that.apVr
     )
-   }
 
-// Одузимање (најједноставија операција са целим бројевима)
+// Одузимање (најједноставнија операција са целим бројевима)
 
    this.minus = function(that) return this.plus(that.suprotno())
 
 // Множење
 
-   this.puta = function(that) {
-    return new CeoBroj(
-     this.imaIstiZnakKao(that) ? PLUS : MINUS,
-     this.apVr * that.apVr
-    )
-   }
+   this.puta = function(that) return new CeoBroj(
+    this.imaIstiZnakKao(that) ? PLUS : MINUS,
+    this.apVr * that.apVr
+   )
    
 // Дељење
 
-   this.deljenoSa = function(that) {
-    return new CeoBroj(
-     this.imaIstiZnakKao(that) ? PLUS : MINUS,
-     this.apVr / that.apVr // ако је дељиво
-    )
-   }
+   this.deljenoSa = function(that) return new CeoBroj(
+    this.imaIstiZnakKao(that) ? PLUS : MINUS,
+    this.apVr / that.apVr // ако је дељиво
+   )
 
   }
 
