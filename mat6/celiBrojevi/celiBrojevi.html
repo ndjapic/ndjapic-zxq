@@ -18,11 +18,11 @@
 // ОСНОВНЕ ОСОБИНЕ
 
    this.znak = z
-   this.apsolutnaVrednost = a
+   this.apVr = a
 
 // ПОРЕЂЕЊЕ СА НУЛОМ
 
-   this.jeNula = this.apsolutnaVrednost == 0
+   this.jeNula = this.apVr == 0
    this.nijeNula = !this.jeNula
 
    this.jePozitivan = this.nijeNula && this.znak == PLUS
@@ -31,30 +31,33 @@
 // СУПРОТНА ВРЕДНОСТ
 
    this.suprotno = function() {
-    return new CeoBroj(
-     this.jeNegativan ? PLUS : MINUS,
-     this.apsolutnaVrednost
-    )
+    return new CeoBroj( this.jeNegativan ? PLUS : MINUS, this.apVr )
    }
 
 // ПРЕТВАРАЊЕ У ТЕКСТ
 
    this.toString = function() {
-    return (this.jeNegativan ? MINUS : '') + this.apsolutnaVrednost
+    return (this.jeNegativan ? MINUS : '') + this.apVr
    }
 
-// УПОРЕЂИВАЊЕ ЦЕЛИХ БРОЈЕВА (два објашњења)
+// УПОРЕЂИВАЊЕ ЦЕЛИХ БРОЈЕВА (три објашњења)
 
    this.jeVeceOdNaPrviNacin = function(that) {
     if(that.jeNegativan)
-     return this.jeNegativan ? this.apsolutnaVrednost < that.apsolutnaVrednost : true
-    return this.jeNegativan ? false : this.apsolutnaVrednost > that.apsolutnaVrednost
+     return this.jeNegativan ? this.apVr < that.apVr : true
+    return this.jeNegativan ? false : this.apVr > that.apVr
    }
 
    this.jeVeceOdNaDrugiNacin = function(that) {
-    if(this.jeNegativan && that.jeNegativan) return this.apsolutnaVrednost < that.apsolutnaVrednost
-    if(!this.jeNegativan && !that.jeNegativan) return this.apsolutnaVrednost > that.apsolutnaVrednost
+    if(this.jeNegativan && that.jeNegativan) return this.apVr < that.apVr
+    if(!this.jeNegativan && !that.jeNegativan) return this.apVr > that.apVr
     return that.jeNegativan
+   }
+
+   this.jeVeceOdNaTreciNacin = function(that) {
+    return this.jeNegativan ?
+    that.jeNegativan && that.apVr > this.apVr :
+    that.jeNegativan || that.apVr < this.apVr
    }
 
 // ОПЕРАЦИЈЕ СА ЦЕЛИМ БРОЈЕВИМА
@@ -62,19 +65,11 @@
 // Сабирање (најсложенија операција са целим бројевима)
 
    this.plus = function(that) {
-   
-    var v = that // сабирак са већом апсолутном вредношћу
-    var m = that // сабирак са мањом апсолутном вредношћу
-    if (this.apsolutnaVrednost > that.apsolutnaVrednost) {v = this}
-    else {m = this}
-
-    return new CeoBroj(
-     v.znak,
-     v.znak == m.znak ?
-     v.apsolutnaVrednost + m.apsolutnaVrednost :
-     v.apsolutnaVrednost - m.apsolutnaVrednost
+    return this.apVr < that.apVr ? that.plus(this) : new CeoBroj(
+     this.znak, this.znak == that.znak ?
+     this.apVr + that.apVr :
+     this.apVr - that.apVr
     )
-
    }
 
 // Одузимање (најједноставија операција са целим бројевима)
@@ -86,7 +81,7 @@
    this.puta = function(that) {
     return new CeoBroj(
      this.znak == that.znak ? PLUS : MINUS,
-     this.apsolutnaVrednost * that.apsolutnaVrednost
+     this.apVr * that.apVr
     )
    }
    
@@ -95,7 +90,7 @@
    this.deljenoSa = function(that) {
     return new CeoBroj(
      this.znak == that.znak ? PLUS : MINUS,
-     this.apsolutnaVrednost / that.apsolutnaVrednost // ако је дељиво
+     this.apVr / that.apVr // ако је дељиво
     )
    }
 
