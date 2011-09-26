@@ -1,17 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8" />
-<title></title>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Квадратни корен</title>
+  </head>
+  <body>
 
-<form name="main">
- Result: <output name="result"></output>
- <script>
-  document.forms.main.elements.result.value = 'Hello World';
- </script>
-</form>
+    <h1>Квадратни корен</h1>
 
-</body>
+    <p>Њутнов поступак за израчунавање квадратног корена је
+    уобичајени поступак који користи сваки калкулатор
+    због ефикасности тог поступка.</p>
+
+  <form name="main" onsubmit="return update(this)">
+    <p>a = <input name="a" value="2" /> <input type="submit"></p>
+    <table>
+      <tr> <th>бр</th> <th>x</th> <th>a/x</th> <th>просек</th> </tr>
+      <span id="span"><tr><td>.</td></tr></span>
+    </table>
+    <p>Result: <output name="result"></output></p>
+  </form>
+
+  <script>
+    var frm = document.forms.main.elements
+    frm.result.value = 'Hello World'
+    var span = document.getElementById('span')
+
+        function sqrt(a) {
+          function iterate(x) {
+            var y = a/x
+                return x==y ? x : iterate((x+y)/2)
+          }
+          return iterate((a+1)/2)
+        }
+
+        function update(frm) {
+          frm.result.value = sqrt(Number(frm.a.value))
+          return false
+        }
+  </script>
+
+  </body>
 </html>
