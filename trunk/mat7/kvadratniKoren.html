@@ -26,18 +26,20 @@
     frm.result.value = 'Hello World'
     var span = document.getElementById('span')
 
-        function sqrt(a) {
-          function iterate(x) {
-            var y = a/x
-                return x==y ? x : iterate((x+y)/2)
-          }
-          return iterate((a+1)/2)
-        }
+    function eq(x,y) {return Math.abs(x-y) < 0.0000000001}
 
-        function update(frm) {
-          frm.result.value = sqrt(Number(frm.a.value))
-          return false
-        }
+    function sqrt(a) {
+      function iterate(x) {
+        var y = (x+a/x)/2
+        return eq(x,y) ? y : iterate(y)
+      }
+      return iterate(1)
+    }
+
+    function update(frm) {
+      frm.result.value = sqrt(Number(frm.a.value))
+      return false
+    }
   </script>
 
   </body>
