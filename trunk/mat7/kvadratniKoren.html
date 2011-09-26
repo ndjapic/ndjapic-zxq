@@ -14,33 +14,45 @@
 
   <form name="main" onsubmit="return update(this)">
     <p>a = <input name="a" value="2" /> <input type="submit"></p>
-    <table>
-      <tr> <th>бр</th> <th>x</th> <th>a/x</th> <th>просек</th> </tr>
-      <span id="span"><tr><td>.</td></tr></span>
+    <table border="2">
+      <tr> <th>бр</th> <th>x</th> <th>y = a/x</th> <th>просек</th> </tr>
+      <tr id="tr"><td align="right">.</td><td>.</td><td>.</td><td>.</td></tr>
     </table>
-    <p>Result: <output name="result"></output></p>
+    <p>Провера: <output name="r"></output></p>
   </form>
 
+  </body>
   <script>
-    var frm = document.forms.main.elements
-    frm.result.value = 'Hello World'
-    var span = document.getElementById('span')
-
-    function eq(x,y) {return Math.abs(x-y) < 0.0000000001}
+//    document.normalize()
+    var tr = document.getElementById('tr')
+    tr.removeAttribute('id')
 
     function sqrt(a) {
       function iterate(x) {
-        var y = (x+a/x)/2
-        return eq(x,y) ? y : iterate(y)
+        var y = a / x
+        var p = (x + y) / 2
+        var cl = tr.cloneNode(true)
+        var td = tr.firstChild
+        td.firstChild.data = ++i + '.'
+        td = td.nextSibling
+        td.firstChild.data = x
+        td = td.nextSibling
+        td.firstChild.data = y
+        td = td.nextSibling
+        td.firstChild.data = p
+        tr.parentNode.appendChild(cl)
+        tr = cl
+        return Math.abs(x / y - 1) < 1e-13 || i > 99 ? p : iterate(p)
       }
-      return iterate(1)
+      var i = 0
+      return iterate(a)
     }
 
     function update(frm) {
-      frm.result.value = sqrt(Number(frm.a.value))
+      var x = sqrt(Number(frm.a.value))
+      frm.r.value = x + ' на квадрат је ' + x*x
       return false
     }
   </script>
 
-  </body>
 </html>
