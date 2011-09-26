@@ -45,7 +45,7 @@
         return Math.abs(x / y - 1) < 1e-13 || i > 99 ? p : iterate(p)
       }
       var i = 0
-      return iterate(a)
+      return iterate(Math.max(a,1))
     }
 
     function update(frm) {
