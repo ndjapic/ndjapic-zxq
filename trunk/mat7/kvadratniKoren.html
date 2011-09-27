@@ -33,13 +33,12 @@
         var p = (x + y) / 2
         var cl = tr.cloneNode(true)
         var td = tr.firstChild
-        td.firstChild.data = ++i + '.'
-        td = td.nextSibling
-        td.firstChild.data = x
-        td = td.nextSibling
-        td.firstChild.data = y
-        td = td.nextSibling
-        td.firstChild.data = p
+        [++i + '.', x, y, p].forEach(
+          function (element, index, array) {
+            td.firstChild.data = element
+            td = td.nextSibling
+          }
+        )
         tr.parentNode.appendChild(cl)
         tr = cl
         return Math.abs(x / y - 1) < 1e-13 || i > 99 ? p : iterate(p)
